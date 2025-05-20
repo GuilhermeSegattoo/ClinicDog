@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Rex",
+    "breed": "Labrador",
+    "age": "3 anos",
+    "location": "São Paulo",
+    "imageUrl": "https://placedog.net/500/300?id=1",
+    "category": "Cachorros",
+    "favorited": false
+  },
+  {
+    "id": 2,
+    "name": "Mimi",
+    "breed": "Siamês",
+    "age": "2 anos",
+    "location": "Rio de Janeiro",
+    "imageUrl": "https://i.pinimg.com/736x/aa/18/6a/aa186a4157d1b7ea0b20e7eb7a4c12e2.jpg",
+    "category": "Gatos",
+    "favorited": true
+  },
+  {
+    "id": 3,
+    "name": "Piu-Piu",
+    "breed": "Calopsita",
+    "age": "1 ano",
+    "location": "Belo Horizonte",
+    "imageUrl": "https://i.pinimg.com/736x/7c/98/7e/7c987e992295842649160a9a9ff5b540.jpg",
+    "category": "Aves",
+    "favorited": false
+  },
+  {
+    "id": 4,
+    "name": "Luna",
+    "breed": "Golden Retriever",
+    "age": "4 anos",
+    "location": "Curitiba",
+    "imageUrl": "https://placedog.net/500/300?id=4",
+    "category": "Cachorros",
+    "favorited": false
+  },
+  {
+    "id": 5,
+    "name": "Nina",
+    "breed": "Persa",
+    "age": "5 anos",
+    "location": "Brasília",
+    "imageUrl": "https://i.pinimg.com/736x/40/2c/c7/402cc7b3c14d2adcb00bb8c3a6e27997.jpg",
+    "category": "Gatos",
+    "favorited": true
+  },
+  {
+    "id": 6,
+    "name": "Fred",
+    "breed": "Poodle",
+    "age": "6 anos",
+    "location": "Porto Alegre",
+    "imageUrl": "https://placedog.net/500/300?id=6",
+    "category": "Cachorros",
+    "favorited": false
+  },
+  {
+    "id": 7,
+    "name": "Tico",
+    "breed": "Papagaio",
+    "age": "2 anos",
+    "location": "Salvador",
+    "imageUrl": "https://i.pinimg.com/736x/5c/63/aa/5c63aa4c9db16243d47e9c59f00d2974.jpg",
+    "category": "Aves",
+    "favorited": false
+  },
+  {
+    "id": 8,
+    "name": "Mel",
+    "breed": "Shih-Tzu",
+    "age": "1 ano",
+    "location": "Recife",
+    "imageUrl": "https://placedog.net/500/300?id=8",
+    "category": "Cachorros",
+    "favorited": true
+  },
+  {
+    "id": 9,
+    "name": "Bolinha",
+    "breed": "Coelho Anão",
+    "age": "8 meses",
+    "location": "Fortaleza",
+    "imageUrl": "https://i.pinimg.com/736x/6e/8a/07/6e8a0712d94f2066a7b76e3f392cbd3e.jpg",
+    "category": "Roedores",
+    "favorited": false
+  },
+  {
+    "id": 10,
+    "name": "Frajola",
+    "breed": "Maine Coon",
+    "age": "3 anos",
+    "location": "Manaus",
+    "imageUrl": "https://i.pinimg.com/736x/17/2b/f3/172bf3ae587c50b1c29ed9cf95e167d4.jpg",
+    "category": "Gatos",
+    "favorited": true
+  }
+]
