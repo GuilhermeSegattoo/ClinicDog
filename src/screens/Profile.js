@@ -111,7 +111,7 @@ export default function Profile() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Editar Perfil")}
+        onPress={() => navigation.navigate("EditProfile")}
       >
         <Text style={styles.buttonText}>Editar Perfil</Text>
       </TouchableOpacity>

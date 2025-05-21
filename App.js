@@ -6,7 +6,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./src/services/firebase.js";
 import Login from "./src/screens/Login";
 import Signup from "./src/screens/Signup";
-import DrawerNavigator from './src/navigation/DrawerNavigator';
+import AppStack from "./src/navigation/AppStack";
 
 const Stack = createStackNavigator();
 export const AuthenticatedUserContext = createContext({});
@@ -59,7 +59,7 @@ function RootNavigator() {
 
   return (
     <NavigationContainer>
-      {user ? <DrawerNavigator /> : <AuthStack />}
+      {user ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

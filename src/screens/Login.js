@@ -32,7 +32,7 @@ export default function Login({ navigation }) {
     setIsLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user); // Atualiza o estado do usuário no contexto
+      setUser(userCredential.user); 
       console.log("Login success");
     } catch (err) {
       Alert.alert("Erro no login", err.message);

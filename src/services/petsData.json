@@ -15,7 +15,7 @@
     "breed": "Siamês",
     "age": "2 anos",
     "location": "Rio de Janeiro",
-    "imageUrl": "https://i.pinimg.com/736x/aa/18/6a/aa186a4157d1b7ea0b20e7eb7a4c12e2.jpg",
+    "imageUrl": "https://th.bing.com/th/id/OIP.t5uJDEUb50SI6WlFKZ0q7wHaFm?rs=1&pid=ImgDetMain",
     "category": "Gatos",
     "favorited": true
   },
@@ -25,7 +25,7 @@
     "breed": "Calopsita",
     "age": "1 ano",
     "location": "Belo Horizonte",
-    "imageUrl": "https://i.pinimg.com/736x/7c/98/7e/7c987e992295842649160a9a9ff5b540.jpg",
+    "imageUrl": "https://th.bing.com/th/id/OIP.tPphk3SKD-oW3REtvFTG7gHaGT?rs=1&pid=ImgDetMain",
     "category": "Aves",
     "favorited": false
   },
@@ -45,7 +45,7 @@
     "breed": "Persa",
     "age": "5 anos",
     "location": "Brasília",
-    "imageUrl": "https://i.pinimg.com/736x/40/2c/c7/402cc7b3c14d2adcb00bb8c3a6e27997.jpg",
+    "imageUrl": "https://th.bing.com/th/id/R.964f5f4e167f7a4c4391260dd5231e6b?rik=fl5nyYBrK1WNHA&riu=http%3a%2f%2fwww.mundogatos.com%2fUploads%2fmundogatos.com%2fImagenesGrandes%2ffotos-de-gatitos-7.jpg&ehk=muO2GWmBzRiibqUFezM7Nza3wi4TvK6pfesyysMvvYs%3d&risl=&pid=ImgRaw&r=0",
     "category": "Gatos",
     "favorited": true
   },
@@ -65,7 +65,7 @@
     "breed": "Papagaio",
     "age": "2 anos",
     "location": "Salvador",
-    "imageUrl": "https://i.pinimg.com/736x/5c/63/aa/5c63aa4c9db16243d47e9c59f00d2974.jpg",
+    "imageUrl": "https://3.bp.blogspot.com/-B-mnH7kgDQw/WcGHvjT5doI/AAAAAAAA9nY/YkEAF0NSB_sP2wqeakAB16ARR3buQMlQACLcBGAs/s1600/1.jpg",
     "category": "Aves",
     "favorited": false
   },
@@ -82,11 +82,11 @@
   {
     "id": 9,
     "name": "Bolinha",
-    "breed": "Coelho Anão",
+    "breed": "Bulldog",
     "age": "8 meses",
     "location": "Fortaleza",
-    "imageUrl": "https://i.pinimg.com/736x/6e/8a/07/6e8a0712d94f2066a7b76e3f392cbd3e.jpg",
-    "category": "Roedores",
+    "imageUrl": "https://www.ilmiocaneleggenda.it/wp-content/uploads/2021/07/bulldog-inglese-2.jpg",
+    "category": "Cachorros",
     "favorited": false
   },
   {
@@ -95,7 +95,7 @@
     "breed": "Maine Coon",
     "age": "3 anos",
     "location": "Manaus",
-    "imageUrl": "https://i.pinimg.com/736x/17/2b/f3/172bf3ae587c50b1c29ed9cf95e167d4.jpg",
+    "imageUrl": "https://th.bing.com/th/id/OIP.CnSwKQMTmk0TozvHWmRdeQHaE8?rs=1&pid=ImgDetMain",
     "category": "Gatos",
     "favorited": true
   }

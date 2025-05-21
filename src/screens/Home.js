@@ -9,20 +9,25 @@ import {
   ScrollView,
   Linking,
   ActivityIndicator,
-  Alert
+  Alert,
+  Dimensions
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { getPets, toggleFavorite } from '../services/petsApi';
 import colors from "../../colors";
 
+import LottieView from "lottie-react-native";
+
+const { width } = Dimensions.get('window');
+
 export default function Home() {
   const navigation = useNavigation();
   const [pets, setPets] = useState([]);
   const [filteredPets, setFilteredPets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('clinica'); // 'clinica' ou 'pets'
 
-  // Categorias fixas (não precisam ser buscadas da API)
   const categories = [
     { label: "Todos", icon: "paw" },
     { label: "Cachorros", icon: "dog" },
@@ -33,7 +38,6 @@ export default function Home() {
 
   const [activeCategory, setActiveCategory] = useState("Todos");
 
-  // Carrega os pets da API mockada
   const fetchPets = async () => {
     try {
       setLoading(true);
@@ -52,7 +56,6 @@ export default function Home() {
     fetchPets();
   }, []);
 
-  // Atualiza favorito localmente e na "API" mockada
   const handleToggleFavorite = async (id) => {
     try {
       const updatedPets = await toggleFavorite(id);
@@ -88,7 +91,6 @@ export default function Home() {
         style={styles.image}
         defaultSource={require('../../assets/default-pet.png')}
       />
-
       <TouchableOpacity
         style={styles.heartIcon}
         onPress={(e) => {
@@ -102,173 +104,267 @@ export default function Home() {
           color={item.favorited ? "#ff4444" : "#fff"}
         />
       </TouchableOpacity>
-
       <View style={styles.petInfo}>
         <Text style={styles.petName}>{item.name}</Text>
         <Text style={styles.petBreed}>{item.breed || "Raça não especificada"}</Text>
         <View style={styles.petDetails}>
           <Ionicons name="location-outline" size={14} color={colors.gray} />
           <Text style={styles.details}> {item.location || "Local não informado"}</Text>
-          <Ionicons name="paw-outline" size={14} color={colors.gray} style={styles.detailIcon} />
-          <Text style={styles.details}> {item.age || "Idade não informada"}</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 
   if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={styles.loadingText}>Carregando pets...</Text>
-      </View>
-    );
-  }
-
+  return (
+    <View style={styles.loadingContainer}>
+      <LottieView
+        source={require("../../assets/Animation.json")}
+        autoPlay
+        loop
+        style={{ width: 200, height: 200 }}
+      />
+      <Text style={styles.loadingText}>Carregando dados...</Text>
+    </View>
+  );
+}
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.welcomeText}>Olá, bem-vindo!</Text>
-          <Text style={styles.title}>Encontre seu novo amigo 🐾</Text>
+        <Image
+          source={{ uri: "https://i.pravatar.cc/300" }}
+          style={styles.profileImage}
+        />
+        <View style={styles.headerTextContainer}>
+          <Text style={styles.welcomeText}>Bem-vindo à</Text>
+          <Text style={styles.clinicName}>Clínica Veterinária PetLove</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate("Perfil")}>
-          <Image
-            source={{ uri: "https://i.pravatar.cc/300" }}
-            style={styles.profileImage}
-          />
+      </View>
+
+      {/* Tabs */}
+      <View style={styles.tabContainer}>
+        <TouchableOpacity
+          style={[styles.tabButton, activeTab === 'clinica' && styles.activeTab]}
+          onPress={() => setActiveTab('clinica')}
+        >
+          <FontAwesome5 name="clinic-medical" size={20} color={activeTab === 'clinica' ? '#fff' : colors.primary} />
+          <Text style={[styles.tabText, activeTab === 'clinica' && styles.activeTabText]}>Nossa Clínica</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={[styles.tabButton, activeTab === 'pets' && styles.activeTab]}
+          onPress={() => setActiveTab('pets')}
+        >
+          <FontAwesome5 name="paw" size={20} color={activeTab === 'pets' ? '#fff' : colors.primary} />
+          <Text style={[styles.tabText, activeTab === 'pets' && styles.activeTabText]}>Pets para Adoção</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Botão de Agendamento */}
-      <TouchableOpacity 
-        style={styles.scheduleButton}
-        onPress={handleCallButton}
-      >
-        <FontAwesome5 name="calendar-alt" size={16} color="#fff" />
-        <Text style={styles.scheduleButtonText}>Agendar Consulta</Text>
-      </TouchableOpacity>
-
-      {/* Categorias */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.categoryScroll}
-        contentContainerStyle={styles.categoryContainer}
-      >
-        {categories.map((cat) => (
-          <TouchableOpacity
-            key={cat.label}
-            style={[
-              styles.categoryButton,
-              activeCategory === cat.label && styles.activeCategory,
-            ]}
-            onPress={() => filterByCategory(cat.label)}
-          >
-            <FontAwesome5
-              name={cat.icon}
-              size={16}
-              color={activeCategory === cat.label ? "#fff" : colors.gray}
-            />
-            <Text
-              style={[
-                styles.categoryText,
-                activeCategory === cat.label && styles.activeCategoryText,
-              ]}
-            >
-              {cat.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-
-      {/* Lista de Pets */}
-      {filteredPets.length > 0 ? (
-        <FlatList
-          data={filteredPets}
-          numColumns={2}
-          columnWrapperStyle={styles.columnWrapper}
-          renderItem={renderPet}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.list}
-          showsVerticalScrollIndicator={false}
-          refreshing={loading}
-          onRefresh={fetchPets}
-        />
-      ) : (
-        <View style={styles.emptyContainer}>
-          <Ionicons name="paw-outline" size={48} color={colors.gray} />
-          <Text style={styles.emptyText}>Nenhum pet encontrado</Text>
+      {activeTab === 'clinica' ? (
+        <ScrollView contentContainerStyle={styles.clinicContainer}>
+          <Image
+            source={{ uri: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee' }}
+            style={styles.clinicImage}
+          />
+          <Text style={styles.sectionTitle}>Sobre Nossa Clínica</Text>
+          <Text style={styles.clinicDescription}>
+            A Clínica Veterinária PetLove oferece os melhores cuidados para seu pet, 
+            com profissionais especializados e equipamentos de última geração.
+          </Text>
+          
+          <Text style={styles.sectionTitle}>Nossos Serviços</Text>
+          <View style={styles.serviceItem}>
+            <Ionicons name="medkit-outline" size={24} color={colors.primary} />
+            <Text style={styles.serviceText}>Consultas e Exames</Text>
+          </View>
+          <View style={styles.serviceItem}>
+            <Ionicons name="cut-outline" size={24} color={colors.primary} />
+            <Text style={styles.serviceText}>Banho e Tosa</Text>
+          </View>
+          <View style={styles.serviceItem}>
+            <Ionicons name="medal-outline" size={24} color={colors.primary} />
+            <Text style={styles.serviceText}>Vacinação</Text>
+          </View>
+          
           <TouchableOpacity 
-            style={styles.refreshButton}
-            onPress={fetchPets}
+            style={styles.scheduleButton}
+            onPress={handleCallButton}
           >
-            <Text style={styles.refreshButtonText}>Tentar novamente</Text>
+            <FontAwesome5 name="calendar-alt" size={16} color="#fff" />
+            <Text style={styles.scheduleButtonText}>Agendar Consulta</Text>
           </TouchableOpacity>
+        </ScrollView>
+      ) : (
+        <View style={styles.petsContainer}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.categoryScroll}
+            contentContainerStyle={styles.categoryContainer}
+          >
+            {categories.map((cat) => (
+              <TouchableOpacity
+                key={cat.label}
+                style={[
+                  styles.categoryButton,
+                  activeCategory === cat.label && styles.activeCategory,
+                ]}
+                onPress={() => filterByCategory(cat.label)}
+              >
+                <FontAwesome5
+                  name={cat.icon}
+                  size={16}
+                  color={activeCategory === cat.label ? "#fff" : colors.gray}
+                />
+                <Text
+                  style={[
+                    styles.categoryText,
+                    activeCategory === cat.label && styles.activeCategoryText,
+                  ]}
+                >
+                  {cat.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
+          {filteredPets.length > 0 ? (
+            <FlatList
+              data={filteredPets}
+              numColumns={2}
+              columnWrapperStyle={styles.columnWrapper}
+              renderItem={renderPet}
+              keyExtractor={(item) => item.id.toString()}
+              contentContainerStyle={styles.list}
+              showsVerticalScrollIndicator={false}
+            />
+          ) : (
+            <View style={styles.emptyContainer}>
+              <Ionicons name="paw-outline" size={48} color={colors.gray} />
+              <Text style={styles.emptyText}>Nenhum pet encontrado</Text>
+            </View>
+          )}
         </View>
       )}
 
-      {/* Botões Flutuantes */}
+      {/* Botão Flutuante */}
       <TouchableOpacity
         style={[styles.floatingButton, styles.favoritesButton]}
         onPress={() => navigation.navigate("Favoritos")}
       >
         <Entypo name="heart" size={24} color="#fff" />
       </TouchableOpacity>
-      
-
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f9f9f9",
-    paddingTop: 40,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
   },
   header: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    padding: 20,
+    backgroundColor: colors.primary,
+    paddingTop: 50,
+  },
+  headerTextContainer: {
+    marginLeft: 15,
   },
   welcomeText: {
     fontSize: 16,
-    color: colors.gray,
+    color: "#fff",
+    opacity: 0.8,
   },
-  title: {
-    fontSize: 28,
+  clinicName: {
+    fontSize: 22,
     fontWeight: "bold",
-    color: colors.dark,
-    marginTop: 4,
+    color: "#fff",
+    marginTop: 5,
   },
   profileImage: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     borderWidth: 2,
-    borderColor: colors.primary,
-    marginLeft: -30,
-    marginBottom: 40,
+    borderColor: "#fff",
+  },
+  tabContainer: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  tabButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 15,
+    backgroundColor: '#fff',
+  },
+  activeTab: {
+    backgroundColor: colors.primary,
+  },
+  tabText: {
+    marginLeft: 8,
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.primary,
+  },
+  activeTabText: {
+    color: '#fff',
+  },
+  clinicContainer: {
+    padding: 20,
+    paddingBottom: 40,
+  },
+  clinicImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.dark,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  clinicDescription: {
+    fontSize: 16,
+    color: '#666',
+    lineHeight: 24,
+    marginBottom: 10,
+  },
+  serviceItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  serviceText: {
+    fontSize: 16,
+    marginLeft: 15,
+    color: '#444',
+  },
+  petsContainer: {
+    flex: 1,
+    paddingHorizontal: 15,
   },
   scheduleButton: {
     backgroundColor: colors.primary,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 14,
-    borderRadius: 14,
-    marginBottom: 20,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginTop: 30,
   },
   scheduleButtonText: {
     color: "#fff",
@@ -277,16 +373,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   categoryScroll: {
-    marginBottom: 20,
+    marginVertical: 15,
   },
   categoryContainer: {
-    paddingBottom: 10,
+    paddingBottom: 5,
   },
   categoryButton: {
     backgroundColor: "#fff",
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: 14,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
     marginRight: 10,
     flexDirection: "row",
     alignItems: "center",
@@ -302,8 +398,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 14,
     color: colors.gray,
-    marginLeft: 8,
-    fontWeight: "500",
+    marginLeft: 5,
   },
   activeCategoryText: {
     color: "#fff",
@@ -313,23 +408,23 @@ const styles = StyleSheet.create({
   },
   columnWrapper: {
     justifyContent: "space-between",
-    marginBottom: 16,
+    marginBottom: 15,
   },
   petCard: {
     backgroundColor: "#fff",
-    borderRadius: 16,
-    width: "48%",
+    borderRadius: 12,
+    width: width * 0.45,
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 3,
-    marginBottom: 16,
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: 15,
   },
   image: {
     width: "100%",
-    height: 140,
+    height: 120,
     resizeMode: "cover",
   },
   heartIcon: {
@@ -339,7 +434,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.2)",
     borderRadius: 20,
     padding: 6,
-    zIndex: 1,
   },
   petInfo: {
     padding: 12,
@@ -353,7 +447,6 @@ const styles = StyleSheet.create({
   petBreed: {
     fontSize: 14,
     color: colors.primary,
-    fontWeight: "600",
     marginBottom: 8,
   },
   petDetails: {
@@ -363,16 +456,15 @@ const styles = StyleSheet.create({
   details: {
     fontSize: 12,
     color: colors.gray,
-  },
-  detailIcon: {
-    marginLeft: 10,
+    marginLeft: 5,
   },
   floatingButton: {
     position: "absolute",
     bottom: 30,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",
@@ -381,13 +473,8 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 6,
   },
-  chatButton: {
-    backgroundColor: colors.primary,
-    right: 30,
-  },
   favoritesButton: {
     backgroundColor: "#ff4444",
-    right: 10,
   },
   loadingContainer: {
     flex: 1,
@@ -408,15 +495,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.gray,
     marginTop: 16,
-  },
-  refreshButton: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: colors.primary,
-    borderRadius: 8,
-  },
-  refreshButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
   },
 });

@@ -58,21 +58,7 @@ export const getPets = async () => {
   await simulateApiDelay();
   return petsData;
 };
-export const addPet = async (petData) => {
-  const petsRef = collection(database, "pets");
-  const data = {
-    name: petData.name || "Sem nome",
-    age: petData.age || "Indefinida",
-    location: petData.location || "Não informado",
-    image: petData.image || "",
-    category: petData.category || "Desconhecida",
-    uid: petData.uid || null,
-    ownerName: petData.ownerName || "Usuário",
-    ownerEmail: petData.ownerEmail || "Sem e-mail",
-    ownerPhone: petData.ownerPhone || "", // opcional
-  };
-  await addDoc(petsRef, data);
-};
+
 
 export const toggleFavorite = async (id) => {
   await simulateApiDelay();

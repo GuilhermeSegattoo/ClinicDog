@@ -15,7 +15,7 @@ export default function Favorites() {
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Image source={{ uri: item.image }} style={styles.image} />
+      <Image source={{ uri: item.imageUrl }} style={styles.image} />
       <Text style={styles.name}>{item.name}</Text>
       <Text style={styles.details}>{item.age} • {item.location}</Text>
     </View>
