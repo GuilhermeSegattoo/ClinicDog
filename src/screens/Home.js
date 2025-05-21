@@ -17,7 +17,7 @@ import { AntDesign, Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { getPets, toggleFavorite } from '../services/petsApi';
 import colors from "../../colors";
 
-import LottieView from "lottie-react-native";
+
 
 const { width } = Dimensions.get('window');
 
@@ -114,16 +114,10 @@ export default function Home() {
       </View>
     </TouchableOpacity>
   );
-
-  if (loading) {
+if (loading) {
   return (
     <View style={styles.loadingContainer}>
-      <LottieView
-        source={require("../../assets/Animation.json")}
-        autoPlay
-        loop
-        style={{ width: 200, height: 200 }}
-      />
+      <ActivityIndicator size="large" color={colors.primary} />
       <Text style={styles.loadingText}>Carregando dados...</Text>
     </View>
   );
