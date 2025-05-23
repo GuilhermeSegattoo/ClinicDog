@@ -1,56 +1,13 @@
 import {
-  collection,
-  getDocs,
-  addDoc,
   doc,
   setDoc,
   getDoc,
-  query,
-  where,
-  deleteDoc,
-  updateDoc,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"; 
+
 import petsData from './petsData.json';
-import { storage } from "./firebase"; 
+import { database } from "./firebase";
 
 
-import { database, auth } from "./firebase";
-
-export const updatePet = async (id, data) => {
-  const petRef = doc(database, 'pets', id);
-  await updateDoc(petRef, data);
-};
-
-export const deletePet = async (id) => {
-  const petRef = doc(database, 'pets', id);
-  await deleteDoc(petRef);
-};
-
-export const uploadImageAsync = async (uri, path) => {
-  try {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-
-    const storageRef = ref(storage, path);
-await uploadBytes(storageRef, blob);
-console.log("URI enviada para o upload:", uri);
-    console.log("Blob criado com sucesso:", blob);
-
-    
-
-    const downloadURL = await getDownloadURL(storageRef);
-    return downloadURL;
-  } catch (err) {
-    console.error("Erro no uploadImageAsync:", err);
-    throw err;
-  }
-};
-export const getPetsByUser = async (uid) => {
-  const q = query(collection(database, 'pets'), where('uid', '==', uid));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-};
 
 const simulateApiDelay = () => new Promise(resolve => setTimeout(resolve, 800));
 
@@ -66,7 +23,7 @@ export const toggleFavorite = async (id) => {
   if (petIndex !== -1) {
     petsData[petIndex].favorited = !petsData[petIndex].favorited;
   }
-  return [...petsData]; // Retorna nova referência para atualizar o estado
+  return [...petsData]; 
 };
 
 export const createUserProfile = async (user) => {

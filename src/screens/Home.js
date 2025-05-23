@@ -66,7 +66,7 @@ export default function Home() {
           : updatedPets.filter((p) => p.category === activeCategory)
       );
     } catch (error) {
-      console.error("Error toggling favorite:", error);
+      console.error("Error escalando favorito:", error);
     }
   };
 

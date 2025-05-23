@@ -6,12 +6,7 @@ import { getFirestore } from 'firebase/firestore';
 
 // ✅ Config oficial do Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBdGnEsj11ZUMW8hMXzU2AZZtrF3p21htI",
-  authDomain: "adoteme-ff88e.firebaseapp.com",
-  projectId: "adoteme-ff88e",
-  storageBucket: "adoteme-ff88e.appspot.com",
-  messagingSenderId: "575955920972",
-  appId: "1:575955920972:web:c6e35d5a1cb9ff1c7c6ce9",
+
 };
 
 const app = initializeApp(firebaseConfig);
